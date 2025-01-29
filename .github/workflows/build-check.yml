@@ -22,7 +22,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies 📦
-        run: pnpm install
+        run: pnpm install@9.15.4
       
       - name: Build Next.js app 🛠️
         run: pnpm build
