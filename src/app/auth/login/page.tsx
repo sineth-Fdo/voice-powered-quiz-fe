@@ -39,8 +39,12 @@ export default function LoginPage() {
       }
 
       
-    } catch (error) {
-      throw new Error("Failed to login. Please try again.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Failed to login. Please try again.");
+      }
     }
   };
 
