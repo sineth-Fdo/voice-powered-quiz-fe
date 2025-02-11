@@ -38,8 +38,9 @@ export default function LoginPage() {
         setError("Invalid role");
       }
 
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Login failed!");
+      
+    } catch (error) {
+      throw new Error("Failed to login. Please try again.");
     }
   };
 
