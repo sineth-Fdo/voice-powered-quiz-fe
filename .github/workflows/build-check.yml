@@ -43,8 +43,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Echo env
+        run: echo ${{ secrets.NEXT_PUBLIC_API_URL }}
+        
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0 .
+        run: docker build --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} -t ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0 .
 
       - name: Push Docker images
         run: |
