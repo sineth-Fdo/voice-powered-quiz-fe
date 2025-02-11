@@ -26,8 +26,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginForm) => {
     try {
   console.log("Hello Port");
-  console.log(http://16.171.230.140:8080);
-      const response = await axios.post(`http://16.171.230.140:8080/auth/login/auth/login`, data);
+      const response = await axios.post("http://16.171.230.140:8080/auth/login/auth/login", data);
       Cookies.set("token", response.data.accessToken);
       const decoded = decode(response.data.accessToken) as JwtPayload;
 
