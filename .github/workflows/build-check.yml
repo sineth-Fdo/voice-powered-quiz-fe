@@ -30,7 +30,7 @@ jobs:
         run: pnpm install
       
       - name: Build Next.js app 🛠️
-        run: pnpm build
+        run: NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} pnpm build
 
       # Docker hub
 

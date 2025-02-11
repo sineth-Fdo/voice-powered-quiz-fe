@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -21,11 +21,18 @@ export default function LoginPage() {
   const { register, handleSubmit } = useForm<LoginForm>();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const [url, setUrl] = useState<string | null>(null);
 
+  useEffect(() => {
+    const BACKENDURL = process.env.NEXT_PUBLIC_API_URL;
+    if (BACKENDURL) 
+      setUrl(BACKENDURL);
+  }, []);
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, data);
+      console.log(url);
+      const response = await axios.post("http://16.171.230.140:8080/auth/login", data);
       Cookies.set("token", response.data.accessToken);
       const decoded = decode(response.data.accessToken) as JwtPayload;
 
