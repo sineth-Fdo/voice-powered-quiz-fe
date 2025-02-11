@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Calendar, Home, Inbox, LogIn, Search, Settings } from "lucide-react";
 
 import {
   Sidebar,
@@ -24,12 +24,12 @@ import Link from "next/link";
 const items = [
   {
     title: "Home",
-    url: "/pages/home",
+    url: "/admin/dashboard/pages/home",
     icon: Home,
   },
   {
     title: "Inbox",
-    url: "/pages/about",
+    url: "/admin/dashboard/pages/about",
     icon: Inbox,
   },
   {
@@ -46,6 +46,11 @@ const items = [
     title: "Settings",
     url: "#",
     icon: Settings,
+  },
+  {
+    title: "login",
+    url: "/admin/dashboard/pages/login",
+    icon: LogIn,
   },
 ];
 
