@@ -1,11 +1,18 @@
 'use client';
 
+import Container from "@/components/layout/container";
+import { AppSidebar } from "@/components/src/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { decode, JwtPayload } from "jsonwebtoken";
 import { useEffect, useState } from "react";
 
-export default function Home() {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,9 +42,13 @@ export default function Home() {
     }
   }, [loading, token, router]);
 
-  if (loading) {
-    return <p>Loading...</p>; 
-  }
-
-  return <div></div>;
+  return (
+    <>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarTrigger />
+        <Container>{children}</Container>
+      </SidebarProvider>
+    </>
+  );
 }
