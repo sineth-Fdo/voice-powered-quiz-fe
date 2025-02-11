@@ -4,6 +4,10 @@ FROM node:20 AS base
 # Install pnpm globally
 RUN npm install -g pnpm@9.15.4
 
+# Add environment variable to be used during the build
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Step 2: Dependencies stage
 FROM base AS dependencies
 
