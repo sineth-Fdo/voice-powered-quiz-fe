@@ -22,8 +22,11 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+
   const onSubmit = async (data: LoginForm) => {
     try {
+  console.log("Hello Port");
+  console.log(process.env.NEXT_PUBLIC_API_URL);
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, data);
       Cookies.set("token", response.data.accessToken);
       const decoded = decode(response.data.accessToken) as JwtPayload;
