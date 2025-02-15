@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import Container from "@/components/layout/container";
 import { AppSidebar } from "@/components/src/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { decode, JwtPayload } from "jsonwebtoken";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
     } else {
       router.push("/auth/login");
     }
-    setLoading(false); 
+    setLoading(false);
   }, [router]);
 
   useEffect(() => {
@@ -43,12 +43,12 @@ export default function RootLayout({
         router.push("/auth/login");
       }
     }
-  }, [loading, token, router]);
+  }, [loading, token, router, role]);
 
   return (
     <>
       <SidebarProvider>
-        <AppSidebar role={role || ''} />
+        <AppSidebar role={role || ""} />
         <SidebarTrigger />
         <Container>{children}</Container>
       </SidebarProvider>

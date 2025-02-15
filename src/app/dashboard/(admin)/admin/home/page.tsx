@@ -1,7 +1,6 @@
 "use client";
 
 import { findAllQuestions } from "@/api/question/questionAPI";
-import { findAllQuiz } from "@/api/quiz/quizAPI";
 
 const Page = () => {
   function openSeparateWindow() {
@@ -22,9 +21,13 @@ const Page = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const response = await findAllQuestions("67a7b7de7c48c1f0e525fccb", "67ac5ed7759af7a40233ce1e",{
-        questionNumber: "3",
-      });
+      const response = await findAllQuestions(
+        "67a7b7de7c48c1f0e525fccb",
+        "67ac5ed7759af7a40233ce1e",
+        {
+          questionNumber: "3",
+        }
+      );
       console.log(response);
     } catch (error) {
       console.error(error);
