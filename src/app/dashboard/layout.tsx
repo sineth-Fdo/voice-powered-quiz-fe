@@ -16,11 +16,14 @@ export default function RootLayout({
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
     const accessToken = Cookies.get("token");
     if (accessToken) {
       setToken(accessToken);
+      const decoded = decode(accessToken) as JwtPayload;
+      setRole(decoded.role);
     } else {
       router.push("/auth/login");
     }
@@ -30,12 +33,12 @@ export default function RootLayout({
   useEffect(() => {
     if (!loading && token) {
       const decoded = decode(token) as JwtPayload;
-      if ((decoded as JwtPayload)?.role === "admin") {
-        router.push("/admin/dashboard/pages/home");
-      } else if ((decoded as JwtPayload)?.role === "teacher") {
-        router.push("/dashboard/pages/home");
-      } else if ((decoded as JwtPayload)?.role === "student") {
-        router.push("/dashboard/pages/home");
+      if ((decoded as JwtPayload)?.role === role) {
+        router.push("/dashboard/admin/home");
+      } else if ((decoded as JwtPayload)?.role === role) {
+        router.push("/dashboard/admin/home");
+      } else if ((decoded as JwtPayload)?.role === role) {
+        router.push("/dashboard/admin/home");
       } else {
         router.push("/auth/login");
       }
@@ -45,7 +48,7 @@ export default function RootLayout({
   return (
     <>
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar role={role || ''} />
         <SidebarTrigger />
         <Container>{children}</Container>
       </SidebarProvider>

@@ -24,7 +24,7 @@ export default function Home() {
     if (!loading && token) {
       const decoded = decode(token) as JwtPayload;
       if ((decoded as JwtPayload)?.role === "admin") {
-        router.push("/admin/dashboard/pages/home");
+        router.push("/dashboard/admin/home");
       } else if ((decoded as JwtPayload)?.role === "teacher") {
         router.push("/dashboard/pages/home");
       } else if ((decoded as JwtPayload)?.role === "student") {
