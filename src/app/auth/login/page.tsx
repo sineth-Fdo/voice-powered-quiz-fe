@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import axios from "axios";
+import { login } from "@/api/auth/authApi";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { decode } from "jsonwebtoken";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 interface LoginForm {
   email: string;
@@ -21,32 +21,22 @@ export default function LoginPage() {
   const { register, handleSubmit } = useForm<LoginForm>();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const [url, setUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    const BACKENDURL = process.env.NEXT_PUBLIC_API_URL;
-    if (BACKENDURL) 
-      setUrl(BACKENDURL);
-  }, []);
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      console.log(url);
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, data);
-      Cookies.set("token", response.data.accessToken);
-      const decoded = decode(response.data.accessToken) as JwtPayload;
+      const response = await login(data.email, data.password);
+      Cookies.set("token", response);
+      const decoded = decode(response) as JwtPayload;
 
       if ((decoded as JwtPayload)?.role === "admin") {
-        router.push("/admin/dashboard/pages/home");
-      } else if ( (decoded as JwtPayload)?.role === "teacher") {
-        router.push("/dashboard/pages/home");
-      } else if ( (decoded as JwtPayload)?.role === "student") {
-        router.push("/dashboard/pages/home");
+        router.push("/dashboard/admin/home");
+      } else if ((decoded as JwtPayload)?.role === "teacher") {
+        router.push("/dashboard/admin/home");
+      } else if ((decoded as JwtPayload)?.role === "student") {
+        router.push("/dashboard/admin/home");
       } else {
         setError("Invalid role");
       }
-
-      
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);

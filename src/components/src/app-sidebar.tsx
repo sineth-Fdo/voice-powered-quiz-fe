@@ -24,37 +24,43 @@ import Link from "next/link";
 const items = [
   {
     title: "Home",
-    url: "/admin/dashboard/pages/home",
+    url: "/dashboard/admin/home",
     icon: Home,
+    roles: ["admin"],
   },
   {
     title: "Inbox",
-    url: "/admin/dashboard/pages/about",
+    url: "/dashboard/admin/about",
     icon: Inbox,
+    roles: ["student"],
   },
   {
     title: "Calendar",
     url: "#",
     icon: Calendar,
+    roles: ["student"],
   },
   {
     title: "Search",
     url: "#",
     icon: Search,
+    roles: ["student"],
   },
   {
     title: "Settings",
     url: "#",
     icon: Settings,
+    roles: ["student",],
   },
   {
     title: "login",
-    url: "/admin/dashboard/pages/login",
+    url: "/dashboard/admin/home",
     icon: LogIn,
+    roles: ["student", "admin", "teacher"],
   },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({ role }: Readonly<{ role: string }>) {
   return (
     <Sidebar>
       <SidebarContent>
@@ -62,16 +68,18 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+            {items
+                .filter((item) => item.roles.includes(role))
+                .map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
