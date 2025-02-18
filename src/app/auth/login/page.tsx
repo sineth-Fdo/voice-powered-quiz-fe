@@ -1,16 +1,13 @@
 "use client";
 
 import { login } from "@/api/auth/authApi";
+import FormSection, {
+  FormData,
+} from "@/components/src/dashboard-conponents/auth/formSection";
+import { useToast } from "@/hooks/use-toast";
 import Cookies from "js-cookie";
 import { decode } from "jsonwebtoken";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-
-interface LoginForm {
-  email: string;
-  password: string;
-}
 
 interface JwtPayload {
   uid: string;
@@ -18,13 +15,18 @@ interface JwtPayload {
 }
 
 export default function LoginPage() {
-  const { register, handleSubmit } = useForm<LoginForm>();
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { toast } = useToast();
 
-  const onSubmit = async (data: LoginForm) => {
+  const onSubmit = async (data: FormData) => {
     try {
       const response = await login(data.email, data.password);
+      toast({
+        title: "Login Success",
+        description: "You have successfully logged in",
+        duration: 5000,
+        style: { backgroundColor: "green", color: "white" },
+      });
       Cookies.set("token", response);
       const decoded = decode(response) as JwtPayload;
 
@@ -35,45 +37,35 @@ export default function LoginPage() {
       } else if ((decoded as JwtPayload)?.role === "student") {
         router.push("/dashboard/admin/home");
       } else {
-        setError("Invalid role");
+        toast({
+          title: "Login Failed",
+          description: "Invalid role",
+          duration: 5000,
+          variant: "destructive",
+        });
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setError(error.message);
+        toast({
+          title: "Login Failed",
+          description: error.message,
+          duration: 5000,
+          variant: "destructive",
+        });
       } else {
-        setError("Failed to login. Please try again.");
+        toast({
+          title: "Login Failed",
+          description: "Something went wrong",
+          duration: 5000,
+          variant: "destructive",
+        });
       }
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-6 bg-white shadow-md rounded-lg w-96">
-        <h2 className="text-2xl font-semibold text-center mb-4">Login</h2>
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <input
-            {...register("email")}
-            type="email"
-            placeholder="Email"
-            className="p-2 border rounded"
-            required
-          />
-          <input
-            {...register("password")}
-            type="password"
-            placeholder="Password"
-            className="p-2 border rounded"
-            required
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
-          >
-            Login
-          </button>
-        </form>
-      </div>
+      <FormSection onSubmit={onSubmit} />
     </div>
   );
 }

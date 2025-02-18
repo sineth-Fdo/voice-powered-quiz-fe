@@ -1,6 +1,6 @@
 "use client";
 
-import { findAllQuestions } from "@/api/question/questionAPI";
+import { findAllQuestionStudent } from "@/api/questionStudent/question-studentAPI";
 
 const Page = () => {
   function openSeparateWindow() {
@@ -21,12 +21,9 @@ const Page = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const response = await findAllQuestions(
-        "67a7b7de7c48c1f0e525fccb",
-        "67ac5ed7759af7a40233ce1e",
-        {
-          questionNumber: "3",
-        }
+      const response = await findAllQuestionStudent(
+        "67a7b7ec7c48c1f0e525fcd9",
+        "correct"
       );
       console.log(response);
     } catch (error) {
