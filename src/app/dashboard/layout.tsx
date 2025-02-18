@@ -3,6 +3,7 @@
 import Container from "@/components/layout/container";
 import { AppSidebar } from "@/components/src/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/toaster";
 import Cookies from "js-cookie";
 import { decode, JwtPayload } from "jsonwebtoken";
 import { useRouter } from "next/navigation";
@@ -33,11 +34,11 @@ export default function RootLayout({
   useEffect(() => {
     if (!loading && token) {
       const decoded = decode(token) as JwtPayload;
-      if ((decoded as JwtPayload)?.role === role) {
+      if ((decoded as JwtPayload)?.role === "admin") {
         router.push("/dashboard/admin/home");
-      } else if ((decoded as JwtPayload)?.role === role) {
+      } else if ((decoded as JwtPayload)?.role === "teacher") {
         router.push("/dashboard/admin/home");
-      } else if ((decoded as JwtPayload)?.role === role) {
+      } else if ((decoded as JwtPayload)?.role === "student") {
         router.push("/dashboard/admin/home");
       } else {
         router.push("/auth/login");
@@ -51,6 +52,7 @@ export default function RootLayout({
         <AppSidebar role={role || ""} />
         <SidebarTrigger />
         <Container>{children}</Container>
+        <Toaster />
       </SidebarProvider>
     </>
   );
