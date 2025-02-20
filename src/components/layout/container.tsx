@@ -12,6 +12,10 @@ const Container = ({ children }: { children: React.ReactNode }) => {
             sm:px-4
             px-6
             h-full
+            mt-5
+            mb-5
+            bg-PRIMARY
+            text-PRIMARY_TEXT
         `}
     >
       {children}

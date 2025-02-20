@@ -31,11 +31,11 @@ export default function LoginPage() {
       const decoded = decode(response) as JwtPayload;
 
       if ((decoded as JwtPayload)?.role === "admin") {
-        router.push("/dashboard/admin/home");
+        router.push("/dashboard/admin/addNewUser");
       } else if ((decoded as JwtPayload)?.role === "teacher") {
-        router.push("/dashboard/admin/home");
+        router.push("/dashboard/teacher/overView");
       } else if ((decoded as JwtPayload)?.role === "student") {
-        router.push("/dashboard/admin/home");
+        router.push("/dashboard/student/home");
       } else {
         toast({
           title: "Login Failed",
@@ -64,7 +64,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-PRIMARY relative">
       <FormSection onSubmit={onSubmit} />
     </div>
   );
