@@ -35,11 +35,11 @@ export default function RootLayout({
     if (!loading && token) {
       const decoded = decode(token) as JwtPayload;
       if ((decoded as JwtPayload)?.role === "admin") {
-        router.push("/dashboard/admin/home");
+        router.push("/dashboard/admin/addNewUser");
       } else if ((decoded as JwtPayload)?.role === "teacher") {
-        router.push("/dashboard/admin/home");
+        router.push("/dashboard/teacher/overView");
       } else if ((decoded as JwtPayload)?.role === "student") {
-        router.push("/dashboard/admin/home");
+        router.push("/dashboard/student/home");
       } else {
         router.push("/auth/login");
       }
@@ -47,13 +47,13 @@ export default function RootLayout({
   }, [loading, token, router, role]);
 
   return (
-    <>
+    <div className="bg-PRIMARY">
       <SidebarProvider>
         <AppSidebar role={role || ""} />
         <SidebarTrigger />
         <Container>{children}</Container>
         <Toaster />
       </SidebarProvider>
-    </>
+    </div>
   );
 }

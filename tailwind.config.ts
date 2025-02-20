@@ -59,7 +59,21 @@ export default {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
-  			}
+  			},
+
+			PRIMARY: '#24292e',
+			SECONDARY: '#2b3137',
+			TERTIARY: '#6a737d',
+
+			PRIMARY_TEXT: '#fafbfc',
+			SECONDARY_TEXT: '#fff',
+
+			GREEN: '#2fbb4f',
+			SECONDARY_GREEN: '#28a745',
+			BLUE: '#0d74e7',
+			SECONDARY_BLUE: '#005cc5',
+			
+
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
