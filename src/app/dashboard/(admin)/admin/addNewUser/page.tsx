@@ -8,7 +8,6 @@ import { useToast } from "@/hooks/use-toast";
 const AddNewUserPage = () => {
   const { toast } = useToast();
 
-
   const onSubmit = async (data: FormData) => {
       const response = await signup(
         {
@@ -20,7 +19,6 @@ const AddNewUserPage = () => {
           grade: data.grade || ''
         }
       );
-      console.log(response);
       if (response.error) {
         toast({
           title: "Register Failed",
@@ -37,7 +35,6 @@ const AddNewUserPage = () => {
         variant: "default",
         className: "bg-GREEN text-PRIMARY_TEXT",
       });
-    
     
   }
 

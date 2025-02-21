@@ -72,6 +72,9 @@ export default {
 			SECONDARY_GREEN: '#28a745',
 			BLUE: '#0d74e7',
 			SECONDARY_BLUE: '#005cc5',
+
+			RED: '#f44336',
+			YELLOW: '#f4b400',
 			
 
   		},
