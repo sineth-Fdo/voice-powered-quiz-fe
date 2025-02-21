@@ -6,6 +6,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
       className={`
             relative
             max-w-[1500px]
+            w-[90%]
             mx-auto
             xl:px-10
             md:px-10
@@ -16,6 +17,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
             mb-5
             bg-PRIMARY
             text-PRIMARY_TEXT
+            
         `}
     >
       {children}
