@@ -19,14 +19,25 @@ export default function LoginPage() {
   const { toast } = useToast();
 
   const onSubmit = async (data: FormData) => {
-    try {
       const response = await login(data.email, data.password);
+      console.log(response.error);
+      if (response.error) {
+        toast({
+          title: "Login Failed",
+          description: `login failed`,
+          duration: 5000,
+          variant: "destructive",
+        });
+        return;
+      }
+
       toast({
-        title: "Login Success",
-        description: "You have successfully logged in",
+        title: "Login Successful",
+        description: "Redirecting...",
         duration: 5000,
-        style: { backgroundColor: "green", color: "white" },
+        className: "bg-GREEN text-PRIMARY_TEXT",
       });
+
       Cookies.set("token", response);
       const decoded = decode(response) as JwtPayload;
 
@@ -44,23 +55,6 @@ export default function LoginPage() {
           className: "bg-GREEN text-PRIMARY_TEXT",
         });
       }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast({
-          title: "Login Failed",
-          description: error.message,
-          duration: 5000,
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Login Failed",
-          description: "Something went wrong",
-          duration: 5000,
-          variant: "destructive",
-        });
-      }
-    }
   };
 
   return (
