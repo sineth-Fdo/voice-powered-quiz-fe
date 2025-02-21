@@ -5,7 +5,7 @@ import FormSection, { FormData } from '@/components/src/dashboard-conponents/add
 import React from 'react'
 import { useToast } from "@/hooks/use-toast";
 
-const page = () => {
+const AddNewUserPage = () => {
   const { toast } = useToast();
 
 
@@ -48,4 +48,4 @@ const page = () => {
   )
 }
 
-export default page
+export default AddNewUserPage
