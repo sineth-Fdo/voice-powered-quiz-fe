@@ -106,7 +106,7 @@ export function AppSidebar({ role }: Readonly<{ role: string }>) {
 
   useEffect(() => {
     displayUser();
-  }, [userName]);
+  }, [displayUser]);
 
   return (
     <Sidebar className="border-r border-[#00000009] shadow-md text-[#fff]">

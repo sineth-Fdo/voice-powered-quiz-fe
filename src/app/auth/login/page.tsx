@@ -41,7 +41,7 @@ export default function LoginPage() {
           title: "Login Failed",
           description: "Invalid role",
           duration: 5000,
-          variant: "destructive",
+          className: "bg-GREEN text-PRIMARY_TEXT",
         });
       }
     } catch (error: unknown) {

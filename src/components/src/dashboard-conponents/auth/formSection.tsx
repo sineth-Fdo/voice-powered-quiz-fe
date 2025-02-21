@@ -49,7 +49,7 @@ const FormSection = ({ onSubmit }: { onSubmit: (data: FormData) => void }) => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Your Email here" {...field} />
+                  <Input type="email" placeholder="Enter Your Email here" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -63,7 +63,7 @@ const FormSection = ({ onSubmit }: { onSubmit: (data: FormData) => void }) => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Your password here" {...field} />
+                  <Input type="password" placeholder="Enter Your password here" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
