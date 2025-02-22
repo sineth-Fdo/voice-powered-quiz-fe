@@ -19,42 +19,42 @@ export default function LoginPage() {
   const { toast } = useToast();
 
   const onSubmit = async (data: FormData) => {
-      const response = await login(data.email, data.password);
-      console.log(response.error);
-      if (response.error) {
-        toast({
-          title: "Login Failed",
-          description: `login failed`,
-          duration: 5000,
-          variant: "destructive",
-        });
-        return;
-      }
-
+    const response = await login(data.email, data.password);
+    console.log(response.error);
+    if (response.error) {
       toast({
-        title: "Login Successful",
-        description: "Redirecting...",
+        title: "Login Failed",
+        description: `login failed`,
+        duration: 5000,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Login Successful",
+      description: "Redirecting...",
+      duration: 5000,
+      className: "bg-GREEN text-PRIMARY_TEXT",
+    });
+
+    Cookies.set("token", response, { expires: 7 });
+    const decoded = decode(response) as JwtPayload;
+
+    if ((decoded as JwtPayload)?.role === "admin") {
+      router.push("/dashboard/admin/addNewUser");
+    } else if ((decoded as JwtPayload)?.role === "teacher") {
+      router.push("/dashboard/teacher/overView");
+    } else if ((decoded as JwtPayload)?.role === "student") {
+      router.push("/dashboard/student/home");
+    } else {
+      toast({
+        title: "Login Failed",
+        description: "Invalid role",
         duration: 5000,
         className: "bg-GREEN text-PRIMARY_TEXT",
       });
-
-      Cookies.set("token", response);
-      const decoded = decode(response) as JwtPayload;
-
-      if ((decoded as JwtPayload)?.role === "admin") {
-        router.push("/dashboard/admin/addNewUser");
-      } else if ((decoded as JwtPayload)?.role === "teacher") {
-        router.push("/dashboard/teacher/overView");
-      } else if ((decoded as JwtPayload)?.role === "student") {
-        router.push("/dashboard/student/home");
-      } else {
-        toast({
-          title: "Login Failed",
-          description: "Invalid role",
-          duration: 5000,
-          className: "bg-GREEN text-PRIMARY_TEXT",
-        });
-      }
+    }
   };
 
   return (
