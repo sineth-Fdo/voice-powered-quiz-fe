@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 const Page = () => {
   const [active, setActive] = useState("Published");
-  const { quizzes, setQuizzes } = useMyQuizzesStore();
+  const { setQuizzes } = useMyQuizzesStore();
 
   const findAllQuizzes = async () => {
     const response = await findAllQuiz({
