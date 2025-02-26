@@ -24,16 +24,16 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+import { findOneUser } from "@/api/user/userApi";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
 import { decode, JwtPayload } from "jsonwebtoken";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { findOneUser } from "@/api/user/userApi";
 
 const items = [
   {
@@ -85,12 +85,11 @@ export function AppSidebar({ role }: Readonly<{ role: string }>) {
   const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
 
-
   const displayUser = async () => {
     const accessToken = Cookies.get("token");
     if (accessToken) {
       const decoded = decode(accessToken) as JwtPayload;
-      const userDetails = await findOneUser(decoded.uid)
+      const userDetails = await findOneUser(decoded.uid);
       setUserName(userDetails.name);
     } else {
       router.push("/auth/login");
@@ -158,14 +157,9 @@ export function AppSidebar({ role }: Readonly<{ role: string }>) {
                 <DropdownMenuItem>
                   <span>Account</span>
                 </DropdownMenuItem>
-                <button 
-                  className="w-full"
-                  onClick={signOut} 
-                  >
+                <button className="w-full" onClick={signOut}>
                   <DropdownMenuItem>
-                    <span>
-                      Sign out
-                    </span>
+                    <span>Sign out</span>
                   </DropdownMenuItem>
                 </button>
               </DropdownMenuContent>

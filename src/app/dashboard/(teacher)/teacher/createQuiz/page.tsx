@@ -30,7 +30,6 @@ const Page = () => {
   };
 
   const onSubmit = async (data: FormData3) => {
-
     const Data = {
       ...FormOne,
       ...FormTwo,
@@ -64,16 +63,29 @@ const Page = () => {
       variant: "default",
       className: "bg-GREEN text-PRIMARY_TEXT",
     });
+    setStepNumber(1);
+    setFormOne({
+      title: "",
+      code: "",
+      description: "",
+      password: "",
+    });
+    setFormTwo({
+      teacher: "",
+      subject: "",
+      grade: "",
+      batch: "",
+    });
   };
 
   return (
     <div>
-      <div className=" w-full h-20 flex justify-between items-center relative">
-        <div className=" flex justify-between items-center w-[100%] absolute">
-          {[...Array(4)].map((_, i) => (
+      <div className="w-full h-20 flex justify-between items-center relative">
+        <div className="flex justify-between items-center w-[100%] absolute">
+          {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className={`border border-BLUE w-7 h-7 rounded-full flex justify-center items-center ${i+1 === stepNumber ? 'bg-BLUE' : 'bg-SECONDARY'} text-SECONDARY_TEXT text-sm`}
+              className={`border border-BLUE w-7 h-7 rounded-full flex justify-center items-center ${i + 1 === stepNumber ? "bg-BLUE" : "bg-SECONDARY"} text-SECONDARY_TEXT text-sm`}
             >
               <h1>{i + 1}</h1>
             </div>
