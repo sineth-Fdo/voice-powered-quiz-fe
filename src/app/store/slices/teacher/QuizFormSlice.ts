@@ -8,7 +8,6 @@ interface FormOneData {
 }
 
 interface FormTwoData {
-  teacher: string;
   subject: string;
   grade: string;
   batch: string;
@@ -29,7 +28,6 @@ const useQuizFormOneStore = create<FormOneI>((set) => ({
     password: "",
   },
   FormTwo: {
-    teacher: "",
     subject: "",
     grade: "",
     batch: "",

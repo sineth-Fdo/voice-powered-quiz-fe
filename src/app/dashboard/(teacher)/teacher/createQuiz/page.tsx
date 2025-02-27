@@ -13,6 +13,7 @@ import QuizFormTwo, {
   FormData2,
 } from "@/components/src/dashboard-conponents/createQuiz/QuizFormTwo";
 import { useToast } from "@/hooks/use-toast";
+import { getUserFromToken } from "@/utils/authUtils";
 
 const Page = () => {
   const { toast } = useToast();
@@ -36,10 +37,12 @@ const Page = () => {
       ...data,
     };
 
+    const user = getUserFromToken();
+
     const response = await createQuiz({
       ...Data,
       title: Data.title || "",
-      teacher: Data.teacher || "",
+      teacher: user?.uid || "",
       subject: Data.subject || "",
       grade: Data.grade || "",
       batch: Data.batch || "",
@@ -71,7 +74,6 @@ const Page = () => {
       password: "",
     });
     setFormTwo({
-      teacher: "",
       subject: "",
       grade: "",
       batch: "",

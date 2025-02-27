@@ -5,6 +5,7 @@ import useMyQuizzesStore from "@/app/store/slices/teacher/MyQuizzesSlice";
 import NavButton from "@/components/src/dashboard-conponents/myQuizzes/NavButton";
 import PendingPage from "@/components/src/dashboard-conponents/myQuizzes/PendingPage";
 import PublishedPage from "@/components/src/dashboard-conponents/myQuizzes/PublishedPage";
+import { getUserFromToken } from "@/utils/authUtils";
 import { useEffect, useState } from "react";
 
 const Page = () => {
@@ -12,21 +13,20 @@ const Page = () => {
   const { setQuizzes } = useMyQuizzesStore();
 
   const findAllQuizzes = async () => {
+    const user = getUserFromToken();
     const response = await findAllQuiz({
-      // teacher: "67ac5ed7759af7a40233ce1e",
+      teacher: user?.uid,
       batch: "2024",
       grade: "G-11",
       status: "pending",
     });
-  
-    setQuizzes(response); 
+
+    setQuizzes(response);
   };
-  
 
   useEffect(() => {
     findAllQuizzes();
-  }
-  , [active]);
+  }, [active]);
 
   return (
     <div>

@@ -60,28 +60,44 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			},
-
-			PRIMARY: '#24292e',
-			SECONDARY: '#2b3137',
-			TERTIARY: '#6a737d',
-
-			PRIMARY_TEXT: '#fafbfc',
-			SECONDARY_TEXT: '#fff',
-
-			GREEN: '#2fbb4f',
-			SECONDARY_GREEN: '#28a745',
-			BLUE: '#0d74e7',
-			SECONDARY_BLUE: '#005cc5',
-
-			RED: '#f44336',
-			YELLOW: '#f4b400',
-			
-
+  			PRIMARY: '#24292e',
+  			SECONDARY: '#2b3137',
+  			TERTIARY: '#6a737d',
+  			PRIMARY_TEXT: '#fafbfc',
+  			SECONDARY_TEXT: '#fff',
+  			GREEN: '#2fbb4f',
+  			SECONDARY_GREEN: '#28a745',
+  			BLUE: '#0d74e7',
+  			SECONDARY_BLUE: '#005cc5',
+  			RED: '#f44336',
+  			YELLOW: '#f4b400'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		keyframes: {
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
   	}
   },

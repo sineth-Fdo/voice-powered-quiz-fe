@@ -11,7 +11,6 @@ import {
   UserPlus2,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-
 import {
   Sidebar,
   SidebarContent,
@@ -23,7 +22,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
 import { findOneUser } from "@/api/user/userApi";
 import {
   DropdownMenu,
@@ -84,6 +82,21 @@ export function AppSidebar({ role }: Readonly<{ role: string }>) {
   const pathname = usePathname();
   const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
+  const [activePath, setActivePath] = useState<string | null>(null);
+
+  useEffect(() => {
+    const lastPath = Cookies.get("lastVisitedPath");
+    if (lastPath && pathname === "/dashboard/teacher/overView") {
+      router.push(lastPath);
+    } else {
+      setActivePath(pathname);
+    }
+  }, [pathname, router]);
+
+  const handleTabClick = (path: string) => {
+    Cookies.set("lastVisitedPath", path, { expires: 1 });
+    setActivePath(path);
+  };
 
   const displayUser = async () => {
     const accessToken = Cookies.get("token");
@@ -97,15 +110,13 @@ export function AppSidebar({ role }: Readonly<{ role: string }>) {
   };
 
   const signOut = async () => {
-    if (Cookies.get("token")) {
-      Cookies.remove("token");
-      router.push("/auth/login");
-    }
+    Cookies.remove("token");
+    router.push("/auth/login");
   };
 
   useEffect(() => {
     displayUser();
-  }, [displayUser]);
+  }, []);
 
   return (
     <Sidebar className="border-r border-[#00000009] shadow-md text-[#fff]">
@@ -117,7 +128,7 @@ export function AppSidebar({ role }: Readonly<{ role: string }>) {
               {items
                 .filter((item) => item.roles.includes(role))
                 .map((item) => {
-                  const isActive = pathname === item.url;
+                  const isActive = activePath === item.url;
                   return (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton asChild>
@@ -128,6 +139,7 @@ export function AppSidebar({ role }: Readonly<{ role: string }>) {
                               ? "bg-BLUE text-PRIMARY_TEXT"
                               : "text-PRIMARY_TEXT hover:bg-PRIMARY_TEXT"
                           }`}
+                          onClick={() => handleTabClick(item.url)}
                         >
                           <item.icon className="w-5 h-5" />
                           <span>{item.title}</span>
