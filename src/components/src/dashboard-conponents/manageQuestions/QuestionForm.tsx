@@ -80,7 +80,7 @@ const QuestionForm = ({
   return (
     <div className="rounded-xl shadow-white p-8 flex flex-col space-y-6 w-[60%] bg-SECONDARY text-SECONDARY_TEXT">
       <div className="flex justify-center items-center">
-        <h1 className="text-2xl font-semibold">Manage Questions</h1>
+        <h1 className="text-2xl font-semibold">Add New Question</h1>
       </div>
       <Form {...form}>
         <form 
@@ -197,7 +197,7 @@ const QuestionForm = ({
           <Button
             type="button"
             onClick={addOption}
-            className="bg-blue-500 text-white w-full"
+            className="bg-SECONDARY_BLUE text-white w-full"
           >
             + Add Option
           </Button>

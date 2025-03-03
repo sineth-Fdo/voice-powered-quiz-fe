@@ -19,3 +19,11 @@ export interface CheckAnswer {
     studentId : string;
     studentAnswer : string;
 }
+
+export interface QuestionFormdata {
+    _id: string;
+    question: string;
+    marks: number;
+    options: { option: string }[];
+    correctAnswer: string;
+}

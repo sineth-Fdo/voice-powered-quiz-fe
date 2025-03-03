@@ -1,14 +1,46 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import QuizCardDetails from "./QuizCardDetails";
+import QuizDropdownMenuItem from "./QuizDropdownMenuItem";
+import QuizStatus from "./QuizStatus";
 
-const QuizCard = (props: { title: string; deleteQuiz?: () => void; navigate?: string }) => {
-  const { title, deleteQuiz, navigate } = props;
+const QuizCard = (props: {
+  title?: string;
+  subject?: string;
+  grade?: string;
+  batch?: string;
+  durationHour?: number;
+  durationMinute?: number;
+  startDate?: string;
+  startTime?: string;
+  endTime?: string;
+  status?: string;
+  deleteQuiz?: () => void;
+  updateStatus?: () => void;
+  backToPending?: () => void;
+  navigate?: string;
+}) => {
+  const {
+    title,
+    subject,
+    grade,
+    batch,
+    durationHour,
+    durationMinute,
+    startDate,
+    startTime,
+    endTime,
+    status,
+    deleteQuiz,
+    updateStatus,
+    backToPending,
+    navigate,
+  } = props;
   const router = useRouter();
 
   return (
@@ -16,7 +48,7 @@ const QuizCard = (props: { title: string; deleteQuiz?: () => void; navigate?: st
       <div className="h-[60%] w-[100%] flex justify-center items-end rounded-t-lg">
         <div className="w-[100%] h-[100%] bg-gradient-to-tr from-[#000000] to-PRIMARY flex justify-start items-end p-2 rounded-t-lg relative">
           <h1>{title}</h1>
-          <div className="w-10 h-10 absolute top-0 right-0 flex justify-center items-center">
+          <div className=" w-10 h-10 absolute top-0 right-0 flex justify-center items-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="border border-[#ffffff26] w-[60%] h-[60%] rounded-full cursor-pointer flex justify-center items-center">
@@ -27,37 +59,94 @@ const QuizCard = (props: { title: string; deleteQuiz?: () => void; navigate?: st
                 side="bottom"
                 className="w-[100%] border bg-SECONDARY text-PRIMARY_TEXT rounded-md shadow-md"
               >
-                <DropdownMenuItem>
-                  <span>Publish</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Edit</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {
-                    if (navigate) {
-                      router.push(navigate);
-                    }
-                  }}
-                >
-                  <span>Manage Questions</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {
-                    if (deleteQuiz) {
-                      deleteQuiz();
-                    }
-                  }}
-                >
-                  <span>Delete</span>
-                </DropdownMenuItem>
+                {status === "pending" ? (
+                  <>
+                    <QuizDropdownMenuItem
+                      onClick={() => {
+                        if (updateStatus) updateStatus();
+                      }}
+                      name="Publish"
+                    />
+                    <QuizDropdownMenuItem name="Edit" />
+                    <QuizDropdownMenuItem
+                      onClick={() => {
+                        if (navigate) router.push(navigate);
+                      }}
+                      name="Manage Questions"
+                    />
+                    <QuizDropdownMenuItem
+                      onClick={() => {
+                        if (deleteQuiz) deleteQuiz();
+                      }}
+                      name="Delete"
+                    />
+                  </>
+                ) : status === "not-started" ? (
+                  <>
+                    <QuizDropdownMenuItem
+                      onClick={() => {
+                        if (updateStatus) updateStatus();
+                      }}
+                      name="Start"
+                    />
+                    <QuizDropdownMenuItem
+                      name="Back to Edit"
+                      onClick={() => {
+                        if (backToPending) backToPending();
+                      }}
+                    />
+                  </>
+                ) : status === "started" ? (
+                  <>
+                    <QuizDropdownMenuItem
+                      onClick={() => {
+                        if (updateStatus) updateStatus();
+                      }}
+                      name="Stop"
+                    />
+                    <QuizDropdownMenuItem name="Edit" />
+                  </>
+                ) : status === "completed" ? (
+                  <>
+                    <QuizDropdownMenuItem name="View Result" />
+                    <QuizDropdownMenuItem
+                      onClick={() => {
+                        if (deleteQuiz) deleteQuiz();
+                      }}
+                      name="Delete"
+                    />
+                  </>
+                ) : null}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
       </div>
       <div className="h-[40%] p-2">
-        <h1>Hello</h1>
+        <div className=" w-[100%] h-auto flex ">
+          <div className=" w-[70%] flex flex-col space-y-1">
+            <QuizCardDetails title="Subject" description={subject || ""} />
+            <QuizCardDetails
+              title="Grade"
+              description={`${grade || ""} - ${batch || ""}`}
+            />
+            <QuizCardDetails
+              title="Duration"
+              description={`${durationHour || 0}h ${durationMinute || 0}min `}
+            />
+            <QuizCardDetails
+              title="Start Time"
+              description={`${startDate || ""} : ${startTime || ""}`}
+            />
+            <QuizCardDetails
+              title="End Time"
+              description={`${startDate || ""} : ${endTime || ""}`}
+            />
+          </div>
+          <div className=" w-[30%] h-[10%] flex justify-end items-center">
+            <QuizStatus status={status || "pending"} />
+          </div>
+        </div>
       </div>
     </div>
   );
