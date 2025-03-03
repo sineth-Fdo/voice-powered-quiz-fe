@@ -63,20 +63,20 @@ const QuizCard = (props: {
                   <>
                     <QuizDropdownMenuItem
                       onClick={() => {
-                        updateStatus && updateStatus();
+                        if (updateStatus) updateStatus();
                       }}
                       name="Publish"
                     />
                     <QuizDropdownMenuItem name="Edit" />
                     <QuizDropdownMenuItem
                       onClick={() => {
-                        navigate && router.push(navigate);
+                        if (navigate) router.push(navigate);
                       }}
                       name="Manage Questions"
                     />
                     <QuizDropdownMenuItem
                       onClick={() => {
-                        deleteQuiz && deleteQuiz();
+                        if (deleteQuiz) deleteQuiz();
                       }}
                       name="Delete"
                     />
@@ -85,14 +85,14 @@ const QuizCard = (props: {
                   <>
                     <QuizDropdownMenuItem
                       onClick={() => {
-                        updateStatus && updateStatus();
+                        if (updateStatus) updateStatus();
                       }}
                       name="Start"
                     />
                     <QuizDropdownMenuItem
                       name="Back to Edit"
                       onClick={() => {
-                        backToPending && backToPending();
+                        if (backToPending) backToPending();
                       }}
                     />
                   </>
@@ -100,7 +100,7 @@ const QuizCard = (props: {
                   <>
                     <QuizDropdownMenuItem
                       onClick={() => {
-                        updateStatus && updateStatus();
+                        if (updateStatus) updateStatus();
                       }}
                       name="Stop"
                     />
@@ -111,7 +111,7 @@ const QuizCard = (props: {
                     <QuizDropdownMenuItem name="View Result" />
                     <QuizDropdownMenuItem
                       onClick={() => {
-                        deleteQuiz && deleteQuiz();
+                        if (deleteQuiz) deleteQuiz();
                       }}
                       name="Delete"
                     />
