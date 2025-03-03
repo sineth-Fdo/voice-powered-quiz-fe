@@ -39,11 +39,15 @@ interface Quiz {
 interface MyQuizzesState {
   quizzes: Quiz[];
   setQuizzes: (data: Quiz[]) => void;
+  quizStatus: string;
+  setQuizStatus: (status: string) => void;
 }
 
 const useMyQuizzesStore = create<MyQuizzesState>((set) => ({
   quizzes: [],
   setQuizzes: (data) => set({ quizzes: data }),
+  quizStatus: "started",
+  setQuizStatus: (status) => set({ quizStatus: status }),
 }));
 
 export default useMyQuizzesStore;

@@ -12,28 +12,23 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { QuestionFormdata } from "@/types/question/question-interface";
 import { getUserFromToken } from "@/utils/authUtils";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export interface QuestionFormdata {
-  _id: string;
-  question: string;
-  marks: number;
-  options: { option: string }[];
-  correctAnswer: string;
-}
 
 const Page = () => {
   const { quizId } = useParams<{ quizId: string }>();
   const { toast } = useToast();
   const [questions, setQuestions] = useState<QuestionFormdata[]>([]);
   const [isAddQuestion, setIsAddQuestion] = useState(false);
+  const [questionNumber, setQuestionNumber] = useState(1);
 
   const addQuestion = async (data: QuestionFormData) => {
     const response = await createQuestion({
       quiz: quizId,
-      questionNumber: "1",
+      questionNumber: questionNumber.toString(),
       question: data.question,
       correctAnswer: data.correctAnswer,
       options: data.options,
@@ -56,13 +51,17 @@ const Page = () => {
       className: "bg-GREEN text-PRIMARY_TEXT",
     });
     setIsAddQuestion(false);
+    setQuestionNumber(0);
     displayAllQuestions(quizId);
   };
 
   const displayAllQuestions = async (quizId: string) => {
     const user = getUserFromToken();
     const response = await findAllQuestions(quizId, user?.uid || "");
-    setQuestions(response);
+    if ((response.length > 0)) {
+      setQuestions(response);
+      setQuestionNumber(response.length + 1);
+    }
   };
 
   useEffect(() => {

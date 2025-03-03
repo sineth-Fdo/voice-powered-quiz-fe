@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const Page = () => {
   const [active, setActive] = useState("Published");
-  const { setQuizzes } = useMyQuizzesStore();
+  const { setQuizzes , quizzes } = useMyQuizzesStore();
 
   const findAllQuizzes = async () => {
     const user = getUserFromToken();
@@ -18,7 +18,6 @@ const Page = () => {
       teacher: user?.uid,
       batch: "2024",
       grade: "G-11",
-      status: "pending",
     });
 
     setQuizzes(response);
@@ -26,7 +25,7 @@ const Page = () => {
 
   useEffect(() => {
     findAllQuizzes();
-  }, [active]);
+  }, [active, quizzes]);
 
   return (
     <div>
@@ -46,7 +45,7 @@ const Page = () => {
           }}
         />
       </div>
-      <div className="border w-[100%] h-auto">
+      <div className=" w-[100%] h-auto">
         {active === "Published" ? <PublishedPage /> : <PendingPage />}
       </div>
     </div>
