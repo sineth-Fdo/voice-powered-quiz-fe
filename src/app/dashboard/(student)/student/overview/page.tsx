@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 const Page = () => {
   const router = useRouter();
-  const { setQuizzes, quizzes } = useMyQuizzesStore();
+  const { setQuizzes } = useMyQuizzesStore();
   const { speechText, setTextToSpeechText, setSpeechText, textToSpeechText } =
     useSpeechTextStore();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);

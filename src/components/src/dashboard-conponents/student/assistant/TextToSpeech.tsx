@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 
 const TextToSpeech = (props: { speechedText: string }) => {
   const { speechedText } = props;
-  const [language, setLanguage] = useState("en-GB");
+  const [language] = useState("en-GB");
   const [isSpacePressed, setIsSpacePressed] = useState(false);
 
   const speakText = useCallback(() => {

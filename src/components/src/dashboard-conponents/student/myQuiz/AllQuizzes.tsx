@@ -1,11 +1,10 @@
-import { updateQuizStatus } from "@/api/quiz/quizAPI";
 import useMyQuizzesStore from "@/app/store/slices/teacher/MyQuizzesSlice";
 import { useToast } from "@/hooks/use-toast";
 import QuizCard from "../../reusable/QuizCard";
 
 const AllQuizzes = () => {
-  const { quizzes, setQuizStatus } = useMyQuizzesStore();
-  const { toast } = useToast();
+  const { quizzes } = useMyQuizzesStore();
+  const {} = useToast();
 
   const quizzesList = Array.isArray(quizzes) ? quizzes : [];
 
@@ -68,7 +67,7 @@ const AllQuizzes = () => {
             ))
           ) : (
             <div className="text-gray-500 text-sm">
-                No Not-Started Quizzes Available.
+              No Not-Started Quizzes Available.
             </div>
           )}
         </div>
