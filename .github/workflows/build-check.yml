@@ -54,38 +54,38 @@ jobs:
           # docker push ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:${{ github.sha }}
           docker push ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0
   
-  # Deploy to AWS EC2
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' 
+  # # Deploy to AWS EC2
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main' 
 
-    steps:
-        - name: Deploy to AWS EC2
-          uses: appleboy/ssh-action@v0.1.6
-          with:
-            host: ${{ secrets.EC2_IP }}
-            username: ubuntu
-            key: ${{ secrets.EC2_SSH_KEY }}
-            port: 22
-            script: |
-              echo "Stopping and removing old container..."
-              CONTAINER_ID=$(docker ps -q --filter "ancestor=${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0")
-              if [ ! -z "$CONTAINER_ID" ]; then
-                docker stop $CONTAINER_ID
-                docker rm $CONTAINER_ID
-              fi
+  #   steps:
+  #       - name: Deploy to AWS EC2
+  #         uses: appleboy/ssh-action@v0.1.6
+  #         with:
+  #           host: ${{ secrets.EC2_IP }}
+  #           username: ubuntu
+  #           key: ${{ secrets.EC2_SSH_KEY }}
+  #           port: 22
+  #           script: |
+  #             echo "Stopping and removing old container..."
+  #             CONTAINER_ID=$(docker ps -q --filter "ancestor=${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0")
+  #             if [ ! -z "$CONTAINER_ID" ]; then
+  #               docker stop $CONTAINER_ID
+  #               docker rm $CONTAINER_ID
+  #             fi
               
-              echo "Removing old Docker image..."
-              IMAGE_ID=$(docker images -q ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0)
-              if [ ! -z "$IMAGE_ID" ]; then
-                docker rmi -f $IMAGE_ID
-              fi
+  #             echo "Removing old Docker image..."
+  #             IMAGE_ID=$(docker images -q ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0)
+  #             if [ ! -z "$IMAGE_ID" ]; then
+  #               docker rmi -f $IMAGE_ID
+  #             fi
               
-              echo "Pulling new Docker image..."
-              docker pull ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0
+  #             echo "Pulling new Docker image..."
+  #             docker pull ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0
               
-              echo "Running new container..."
-              docker run -d -p 3000:3000 --name voice-powered-quiz-fe \
-                -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
-                ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0
+  #             echo "Running new container..."
+  #             docker run -d -p 3000:3000 --name voice-powered-quiz-fe \
+  #               -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+  #               ${{ secrets.DOCKER_USERNAME }}/voice-powered-quiz-fe:v1.0
