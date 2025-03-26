@@ -46,7 +46,7 @@ export default function LoginPage() {
     } else if ((decoded as JwtPayload)?.role === "teacher") {
       router.push("/dashboard/teacher/overView");
     } else if ((decoded as JwtPayload)?.role === "student") {
-      router.push("/dashboard/student/home");
+      router.push("/dashboard/student/overview");
     } else {
       toast({
         title: "Login Failed",

@@ -28,7 +28,7 @@ export default function Home() {
       } else if ((decoded as JwtPayload)?.role === "teacher") {
         router.push("/dashboard/teacher/overView");
       } else if ((decoded as JwtPayload)?.role === "student") {
-        router.push("/dashboard/student/home");
+        router.push("/dashboard/student/overview");
       } else {
         router.push("/auth/login");
       }

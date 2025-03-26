@@ -20,10 +20,11 @@ const QuizCard = (props: {
   startTime?: string;
   endTime?: string;
   status?: string;
+  role?: string;
+  navigate?: string;
   deleteQuiz?: () => void;
   updateStatus?: () => void;
   backToPending?: () => void;
-  navigate?: string;
 }) => {
   const {
     title,
@@ -36,10 +37,11 @@ const QuizCard = (props: {
     startTime,
     endTime,
     status,
+    navigate,
+    role,
     deleteQuiz,
     updateStatus,
     backToPending,
-    navigate,
   } = props;
   const router = useRouter();
 
@@ -49,76 +51,78 @@ const QuizCard = (props: {
         <div className="w-[100%] h-[100%] bg-gradient-to-tr from-[#000000] to-PRIMARY flex justify-start items-end p-2 rounded-t-lg relative">
           <h1>{title}</h1>
           <div className=" w-10 h-10 absolute top-0 right-0 flex justify-center items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="border border-[#ffffff26] w-[60%] h-[60%] rounded-full cursor-pointer flex justify-center items-center">
-                  <EllipsisIcon size={20} />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="bottom"
-                className="w-[100%] border bg-SECONDARY text-PRIMARY_TEXT rounded-md shadow-md"
-              >
-                {status === "pending" ? (
-                  <>
-                    <QuizDropdownMenuItem
-                      onClick={() => {
-                        if (updateStatus) updateStatus();
-                      }}
-                      name="Publish"
-                    />
-                    <QuizDropdownMenuItem name="Edit" />
-                    <QuizDropdownMenuItem
-                      onClick={() => {
-                        if (navigate) router.push(navigate);
-                      }}
-                      name="Manage Questions"
-                    />
-                    <QuizDropdownMenuItem
-                      onClick={() => {
-                        if (deleteQuiz) deleteQuiz();
-                      }}
-                      name="Delete"
-                    />
-                  </>
-                ) : status === "not-started" ? (
-                  <>
-                    <QuizDropdownMenuItem
-                      onClick={() => {
-                        if (updateStatus) updateStatus();
-                      }}
-                      name="Start"
-                    />
-                    <QuizDropdownMenuItem
-                      name="Back to Edit"
-                      onClick={() => {
-                        if (backToPending) backToPending();
-                      }}
-                    />
-                  </>
-                ) : status === "started" ? (
-                  <>
-                    <QuizDropdownMenuItem
-                      onClick={() => {
-                        if (updateStatus) updateStatus();
-                      }}
-                      name="Stop"
-                    />
-                    <QuizDropdownMenuItem name="Edit" />
-                  </>
-                ) : status === "completed" ? (
-                  <>
-                    <QuizDropdownMenuItem name="View Result" />
-                    <QuizDropdownMenuItem
-                      onClick={() => {
-                        if (deleteQuiz) deleteQuiz();
-                      }}
-                      name="Delete"
-                    />
-                  </>
-                ) : null}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {role !== "student" && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="border border-[#ffffff26] w-[60%] h-[60%] rounded-full cursor-pointer flex justify-center items-center">
+                    <EllipsisIcon size={20} />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="bottom"
+                  className="w-[100%] border bg-SECONDARY text-PRIMARY_TEXT rounded-md shadow-md"
+                >
+                  {status === "pending" ? (
+                    <>
+                      <QuizDropdownMenuItem
+                        onClick={() => {
+                          if (updateStatus) updateStatus();
+                        }}
+                        name="Publish"
+                      />
+                      <QuizDropdownMenuItem name="Edit" />
+                      <QuizDropdownMenuItem
+                        onClick={() => {
+                          if (navigate) router.push(navigate);
+                        }}
+                        name="Manage Questions"
+                      />
+                      <QuizDropdownMenuItem
+                        onClick={() => {
+                          if (deleteQuiz) deleteQuiz();
+                        }}
+                        name="Delete"
+                      />
+                    </>
+                  ) : status === "not-started" ? (
+                    <>
+                      <QuizDropdownMenuItem
+                        onClick={() => {
+                          if (updateStatus) updateStatus();
+                        }}
+                        name="Start"
+                      />
+                      <QuizDropdownMenuItem
+                        name="Back to Edit"
+                        onClick={() => {
+                          if (backToPending) backToPending();
+                        }}
+                      />
+                    </>
+                  ) : status === "started" ? (
+                    <>
+                      <QuizDropdownMenuItem
+                        onClick={() => {
+                          if (updateStatus) updateStatus();
+                        }}
+                        name="Stop"
+                      />
+                      <QuizDropdownMenuItem name="Edit" />
+                    </>
+                  ) : status === "completed" ? (
+                    <>
+                      <QuizDropdownMenuItem name="View Result" />
+                      <QuizDropdownMenuItem
+                        onClick={() => {
+                          if (deleteQuiz) deleteQuiz();
+                        }}
+                        name="Delete"
+                      />
+                    </>
+                  ) : null}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
       </div>
