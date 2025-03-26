@@ -18,7 +18,7 @@ const Page = () => {
   const { speechText, setTextToSpeechText, setSpeechText, textToSpeechText } =
     useSpeechTextStore();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [popupStatus, setPopupStatus] = useState<number>(1);
+  const [popupStatus] = useState<number>(1);
 
   const findAllQuizzes = async () => {
     const user = getUserFromToken();
