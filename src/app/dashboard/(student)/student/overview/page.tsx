@@ -40,7 +40,6 @@ const Page = () => {
       responseRunning.length > 0 ? responseRunning[0]._id : null;
     setRunningQuizId(newRunningQuizId);
 
-    console.log("running quiz id:", runningQuizId);
     const responseNotStarted = responseList.filter(
       (quiz) => quiz.status === "not-started"
     );
@@ -50,8 +49,8 @@ const Page = () => {
 
   const handleQuizDialog = (
     status: number,
-    runningQuizzes: any[],
-    notStartedQuizzes: any[]
+    runningQuizzes: string[],
+    notStartedQuizzes: string[]
   ) => {
     if (status === 0) {
       if (runningQuizzes.length > 0) {
