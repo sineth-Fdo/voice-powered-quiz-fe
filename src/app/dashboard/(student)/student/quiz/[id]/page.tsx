@@ -61,7 +61,6 @@ const Page = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dataFetched, setDataFetched] = useState<boolean>(false);
-  const [isAnswered, setIsAnswered] = useState<boolean>(false);
   const [answeredQuestionNumbers, setAnsweredQuestionNumbers] = useState<
     number[]
   >([]);
@@ -146,104 +145,98 @@ const Page = () => {
     const user = getUserFromToken();
     if (!user?.uid) return;
 
-    try {
-      const quizStudentRes = await findOneQuizStudent(id, user.uid);
-      setQuizStudent(quizStudentRes); // Just set the entire response object
-    } catch (error) {}
+    const quizStudentRes = await findOneQuizStudent(id, user.uid);
+    setQuizStudent(quizStudentRes); // Just set the entire response object
   };
   // Memoized function to fetch a random question
   const fetchRandomQuestion = useCallback(async () => {
     if (dataFetched) return;
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      // Get current user
-      const user = getUserFromToken();
-      if (!user?.uid) return;
+    // Get current user
+    const user = getUserFromToken();
+    if (!user?.uid) return;
 
-      // Get quiz student data
-      const quizStudentRes = await findOneQuizStudent(id, user.uid);
+    // Get quiz student data
+    const quizStudentRes = await findOneQuizStudent(id, user.uid);
 
-      // Get quiz details
-      const quizResponse = await findOneQuiz(id);
-      setQuiz(quizResponse);
+    // Get quiz details
+    const quizResponse = await findOneQuiz(id);
+    setQuiz(quizResponse);
 
-      // Extract answered question numbers
-      const answeredQNums = quizStudentRes.answeredQuestions.map(
-        (item: AnsweredQuestion) => item.questionId.questionNumber
-      );
-      setAnsweredQuestionNumbers(answeredQNums);
+    // Extract answered question numbers
+    const answeredQNums = quizStudentRes.answeredQuestions.map(
+      (item: AnsweredQuestion) => item.questionId.questionNumber
+    );
+    setAnsweredQuestionNumbers(answeredQNums);
 
-      // Check if all questions are answered
-      if (answeredQNums.length >= quizResponse.quizTotalQuestions) {
-        setTextToSpeechText("You have answered all questions in this quiz.");
-        setQuizCompleted(true);
-        setLoading(false);
-        return;
-      }
-
-      // Generate a random question number that hasn't been answered yet
-      let randomNum;
-      let attempts = 0;
-      const maxAttempts = 20;
-
-      do {
-        randomNum =
-          Math.floor(Math.random() * quizResponse.quizTotalQuestions) + 1;
-        attempts++;
-      } while (answeredQNums.includes(randomNum) && attempts < maxAttempts);
-
-      // If we couldn't find an unanswered question after max attempts
-      if (answeredQNums.includes(randomNum)) {
-        setTextToSpeechText(
-          "Could not find any unanswered questions. Please try again later."
-        );
-        setQuizCompleted(true);
-        setLoading(false);
-        return;
-      }
-
-      // Fetch the random question
-      const questionResponse = await findAllQuestions(id, user.uid, {
-        questionNumber: randomNum.toString(),
-      });
-
-      // Process response
-      const questionData = Array.isArray(questionResponse)
-        ? questionResponse
-        : [questionResponse];
-
-      // Skip displaying already answered questions
-      if (questionData.length > 0) {
-        const questionId = questionData[0]._id;
-        const alreadyAnswered = quizStudentRes.answeredQuestions.some(
-          (item: any) => item.questionId._id === questionId
-        );
-
-        if (alreadyAnswered) {
-          // Don't display this question, try again
-          setDataFetched(false);
-          setLoading(false);
-          // Recursively call fetchRandomQuestion to get a different question
-          fetchRandomQuestion();
-          return;
-        }
-
-        // Question is not answered, proceed normally
-        // setIsAnswered(false);
-        setQuestions(questionData);
-        setTextToSpeechText(questionData[0].question);
-      } else {
-        // No questions found
-        setTextToSpeechText("No questions found for this quiz.");
-      }
-
-      setDataFetched(true);
-    } catch (error) {
-    } finally {
+    // Check if all questions are answered
+    if (answeredQNums.length >= quizResponse.quizTotalQuestions) {
+      setTextToSpeechText("You have answered all questions in this quiz.");
+      setQuizCompleted(true);
       setLoading(false);
+      return;
     }
+
+    // Generate a random question number that hasn't been answered yet
+    let randomNum;
+    let attempts = 0;
+    const maxAttempts = 20;
+
+    do {
+      randomNum =
+        Math.floor(Math.random() * quizResponse.quizTotalQuestions) + 1;
+      attempts++;
+    } while (answeredQNums.includes(randomNum) && attempts < maxAttempts);
+
+    // If we couldn't find an unanswered question after max attempts
+    if (answeredQNums.includes(randomNum)) {
+      setTextToSpeechText(
+        "Could not find any unanswered questions. Please try again later."
+      );
+      setQuizCompleted(true);
+      setLoading(false);
+      return;
+    }
+
+    // Fetch the random question
+    const questionResponse = await findAllQuestions(id, user.uid, {
+      questionNumber: randomNum.toString(),
+    });
+
+    // Process response
+    const questionData = Array.isArray(questionResponse)
+      ? questionResponse
+      : [questionResponse];
+
+    // Skip displaying already answered questions
+    if (questionData.length > 0) {
+      const questionId = questionData[0]._id;
+      const alreadyAnswered = quizStudentRes.answeredQuestions.some(
+        (item: AnsweredQuestion) => item.questionId._id === questionId
+      );
+
+      if (alreadyAnswered) {
+        // Don't display this question, try again
+        setDataFetched(false);
+        setLoading(false);
+        // Recursively call fetchRandomQuestion to get a different question
+        fetchRandomQuestion();
+        return;
+      }
+
+      // Question is not answered, proceed normally
+      setQuestions(questionData);
+      setTextToSpeechText(questionData[0].question);
+    } else {
+      // No questions found
+      setTextToSpeechText("No questions found for this quiz.");
+    }
+
+    setDataFetched(true);
+
+    setLoading(false);
   }, [id, setQuiz, setTextToSpeechText, dataFetched]);
 
   // Initialize quiz on component mount
@@ -282,42 +275,36 @@ const Page = () => {
   const handleSubmit = async () => {
     if (!selectedOption || !questions[0]) return;
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const response = await checkAnswer({
-        quizId: quiz._id,
-        questionId: questions[0]._id,
-        studentId: getUserFromToken()?.uid || "",
-        studentAnswer: selectedOption,
-      });
+    const response = await checkAnswer({
+      quizId: quiz._id,
+      questionId: questions[0]._id,
+      studentId: getUserFromToken()?.uid || "",
+      studentAnswer: selectedOption,
+    });
 
-      if (response) {
-        // Calculate remaining questions
-        const totalAnswered = answeredQuestionNumbers.length + 1;
-        const remaining = quiz.quizTotalQuestions - totalAnswered;
+    if (response) {
+      // Calculate remaining questions
+      const totalAnswered = answeredQuestionNumbers.length + 1;
+      const remaining = quiz.quizTotalQuestions - totalAnswered;
 
-        // Set the text for speech
-        setTextToSpeechText(
-          `Your answer has been submitted. You have ${remaining} questions left.`
-        );
-
-        // Add a delay before resetting states to allow speech to complete
-        setTimeout(() => {
-          // Reset for next question
-          setQuestions([]);
-          setSelectedOption("");
-          setSpeechText("");
-          setDataFetched(false);
-        }, 5000); // 5 second delay should be enough for the speech to complete
-      }
-    } catch (error) {
+      // Set the text for speech
       setTextToSpeechText(
-        "There was an error submitting your answer. Please try again."
+        `Your answer has been submitted. You have ${remaining} questions left.`
       );
-    } finally {
-      setLoading(false);
+
+      // Add a delay before resetting states to allow speech to complete
+      setTimeout(() => {
+        // Reset for next question
+        setQuestions([]);
+        setSelectedOption("");
+        setSpeechText("");
+        setDataFetched(false);
+      }, 5000); // 5 second delay should be enough for the speech to complete
     }
+
+    setLoading(false);
   };
 
   // Loading state
