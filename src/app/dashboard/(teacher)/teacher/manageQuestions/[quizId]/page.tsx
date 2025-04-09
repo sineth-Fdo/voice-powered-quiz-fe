@@ -17,7 +17,6 @@ import { getUserFromToken } from "@/utils/authUtils";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-
 const Page = () => {
   const { quizId } = useParams<{ quizId: string }>();
   const { toast } = useToast();
@@ -58,7 +57,7 @@ const Page = () => {
   const displayAllQuestions = async (quizId: string) => {
     const user = getUserFromToken();
     const response = await findAllQuestions(quizId, user?.uid || "");
-    if ((response.length > 0)) {
+    if (response.length > 0) {
       setQuestions(response);
       setQuestionNumber(response.length + 1);
     }

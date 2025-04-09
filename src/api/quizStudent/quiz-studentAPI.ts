@@ -34,3 +34,19 @@ export const findAllQuizStudent = async (params: FindQuizStudent = {}) => {
       return { error: "Something went wrong" };
     }
   };
+
+  // find one quiz student
+export const findOneQuizStudent = async (quizId: string, studentId: string) => {
+    try {
+      const response = await AxiosClient.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/quiz-student/findOne/${quizId}/${studentId}`
+      );
+  
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return { error: error.response?.data?.message || "Something went wrong" };
+      }
+      return { error: "Something went wrong" };
+    }
+  }

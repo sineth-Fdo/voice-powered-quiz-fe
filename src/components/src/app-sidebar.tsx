@@ -1,16 +1,12 @@
 "use client";
 
-import Cookies from "js-cookie";
+import { findOneUser } from "@/api/user/userApi";
 import {
-  AlignHorizontalJustifyStartIcon,
-  BookCheck,
-  CopyPlusIcon,
-  HistoryIcon,
-  User,
-  UserCog2Icon,
-  UserPlus2,
-} from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -22,15 +18,19 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { findOneUser } from "@/api/user/userApi";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import Cookies from "js-cookie";
 import { decode, JwtPayload } from "jsonwebtoken";
+import {
+  AlignHorizontalJustifyStartIcon,
+  BookCheck,
+  CopyPlusIcon,
+  HistoryIcon,
+  User,
+  UserCog2Icon,
+  UserPlus2,
+} from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const items = [
