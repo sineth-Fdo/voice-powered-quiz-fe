@@ -80,13 +80,13 @@ const SpeechToText = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code === "Space" && !isListening) {
+      if (event.code === "ArrowUp" && !isListening) {
         startListening();
       }
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
-      if (event.code === "Space" && isListening) {
+      if (event.code === "ArrowUp" && isListening) {
         stopListening();
       }
     };

@@ -54,6 +54,11 @@ const TextToSpeech = (props: { speechedText: string }) => {
     };
   }, [speakText, isSpacePressed]);
 
+  useEffect(() => {
+    speakText();
+  }
+  , [speakText]);
+
   return (
     <div className="hidden">
       <p>{speechedText}</p>

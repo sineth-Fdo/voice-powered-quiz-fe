@@ -9,7 +9,6 @@ interface ReusableDialogProps {
   title: string;
   message: string;
   onConfirm: () => void;
-  onCancel?: () => void;
 }
 
 const PopupDialog: React.FC<ReusableDialogProps> = ({
@@ -18,12 +17,11 @@ const PopupDialog: React.FC<ReusableDialogProps> = ({
   title,
   message,
   onConfirm,
-  onCancel,
 }) => {
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange} >
       <DialogTrigger className="hidden">Open</DialogTrigger>
-      <DialogContent className="bg-[#00000074] border-2 border-SECONDARY_BLUE w-[100%] h-auto">
+      <DialogContent className="bg-[#000000a4] border-2 border-SECONDARY_BLUE w-[100%] h-auto">
         <DialogHeader>
           <DialogTitle className="text-SECONDARY_TEXT">
             <p className="text-lg">{title}</p>
@@ -31,9 +29,6 @@ const PopupDialog: React.FC<ReusableDialogProps> = ({
         </DialogHeader>
         <p className="text-white">{message}</p>
         <DialogFooter>
-          <Button variant="secondary" onClick={onCancel || (() => onOpenChange(false))}>
-            Cancel
-          </Button>
           <Button variant="default" onClick={onConfirm}>
             Next
           </Button>
