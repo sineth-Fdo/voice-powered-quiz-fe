@@ -95,14 +95,16 @@ const Page = () => {
         </div>
         <div className="border border-SECONDARY w-[100%]"></div>
       </div>
-      <div className=" w-[100%] flex flex-col justify-center items-center">
-        {
+      <div className="bg-SECONDARY/20 rounded-xl p-6 shadow-lg backdrop-blur-sm border border-white/5">
+        <div className="animate-fadeIn">
           {
-            1: <QuizFormOne onSubmit={getQuizFormOneData} />,
-            2: <QuizFormTwo onSubmit={getQuizFormTwoData} />,
-            3: <QuizFormThree onSubmit={onSubmit} />,
-          }[stepNumber]
-        }
+            {
+              1: <QuizFormOne onSubmit={getQuizFormOneData} />,
+              2: <QuizFormTwo onSubmit={getQuizFormTwoData} />,
+              3: <QuizFormThree onSubmit={onSubmit} />,
+            }[stepNumber]
+          }
+        </div>
       </div>
     </div>
   );

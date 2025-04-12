@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 export default {
+	
     darkMode: ["class"],
     content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -62,7 +63,7 @@ export default {
   			},
   			PRIMARY: '#24292e',
   			SECONDARY: '#2b3137',
-  			TERTIARY: '#6a737d',
+  			TERTIARY: '#ffffff70',
   			PRIMARY_TEXT: '#fafbfc',
   			SECONDARY_TEXT: '#fff',
   			GREEN: '#2fbb4f',

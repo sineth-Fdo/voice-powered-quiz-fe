@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const Page = () => {
   const [active, setActive] = useState("Published");
-  const { setQuizzes , quizzes } = useMyQuizzesStore();
+  const { setQuizzes, quizzes } = useMyQuizzesStore();
 
   const findAllQuizzes = async () => {
     const user = getUserFromToken();
@@ -29,6 +29,12 @@ const Page = () => {
 
   return (
     <div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-PRIMARY_TEXT">My Quizzes</h1>
+        <p className="text-TERTIARY text-sm">
+          Manage your published and pending quizzes
+        </p>
+      </div>
       <div className="mb-[3%] w-full h-auto flex justify-center items-center space-x-5">
         <NavButton
           active={active}
