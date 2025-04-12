@@ -11,6 +11,15 @@ export interface CreateQuiz {
     startTime: string;
     endTime: string;
 }
+export interface UpdateQuiz {
+    title: string;
+    code: string;
+    description: string;
+    password: string;
+    startDate: string;
+    startTime: string;
+    endTime: string;
+}
 
 export interface UpdateTotals {
     quizTotalMarks : number;

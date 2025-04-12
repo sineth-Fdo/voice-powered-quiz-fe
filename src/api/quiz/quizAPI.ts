@@ -1,5 +1,5 @@
 import AxiosClient from "@/lib/customAxios";
-import { CreateQuiz, QuizQueryParams, UpdateTotals } from "@/types/quiz/quiz-interface";
+import { CreateQuiz, QuizQueryParams, UpdateQuiz, UpdateTotals } from "@/types/quiz/quiz-interface";
 import axios from "axios";
 
 //  create quiz
@@ -100,3 +100,36 @@ export const findAllQuiz = async (params: QuizQueryParams = {}) => {
       return { error: "Something went wrong" };
     }
   };
+
+  // update quiz
+export const updateQuiz = async (id: string, updateQuiz: UpdateQuiz) => {
+    try {
+      const response = await AxiosClient.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/quiz/update/${id}`,
+        updateQuiz
+      );
+  
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return { error: error.response?.data?.message || "Something went wrong" };
+      }
+      return { error: "Something went wrong" };
+    }
+  }
+
+  export const updateQuizPassMark = async (id: string, passMark: number) => {
+    try {
+      const response = await AxiosClient.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/quiz/updatePassMark/${id}`,
+        { passMark }
+      );
+  
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return { error: error.response?.data?.message || "Something went wrong" };
+      }
+      return { error: "Something went wrong" };
+    }
+  }
