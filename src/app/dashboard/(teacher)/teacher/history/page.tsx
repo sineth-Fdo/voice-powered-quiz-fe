@@ -97,7 +97,7 @@ const Page = () => {
           </div>
           <h2 className="text-xl font-bold text-PRIMARY_TEXT mb-2">No Completed Quizzes Yet</h2>
           <p className="text-center text-TERTIARY max-w-md">
-            Once you've completed quizzes, they will appear here for you to review and analyze results.
+            Once you have completed quizzes, they will appear here for you to review and analyze results.
           </p>
         </div>
       )}

@@ -13,8 +13,7 @@ import { useEffect, useState } from "react";
 
 const Page = () => {
   const { toast } = useToast();
-  const [quizStudents, setQuizStudents] = useState<any[]>([]);
-  const { setQuizzes, quizzes } = useMyQuizzesStore();
+  const { setQuizzes } = useMyQuizzesStore();
   const [completionRate, setCompletionRate] = useState(0);
   const [inCompletionRate, setInCompletionRate] = useState(0);
   const [latestQuiz, setLatestQuiz] = useState({
@@ -90,8 +89,6 @@ const Page = () => {
 
     // console.log("Attempted Students", attemptedStudents);
     // console.log("Not Attempted Students", notAttemptedStudents);
-
-    setQuizStudents(response);
   };
 
   useEffect(() => {
