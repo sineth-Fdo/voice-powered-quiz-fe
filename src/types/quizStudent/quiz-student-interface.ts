@@ -7,4 +7,5 @@ export interface CreateQuizStudent {
 export type FindQuizStudent = Partial<{
     quizId : string;
     student : string;
+    teacherId : string;
 }>;
