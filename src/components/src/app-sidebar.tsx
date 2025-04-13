@@ -111,6 +111,7 @@ export function AppSidebar({ role }: Readonly<{ role: string }>) {
 
   const signOut = async () => {
     Cookies.remove("token");
+    Cookies.remove("lastVisitedPath");
     router.push("/auth/login");
   };
 

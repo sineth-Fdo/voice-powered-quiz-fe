@@ -9,7 +9,7 @@ const PendingPage = () => {
   const { quizzes } = useMyQuizzesStore();
   const { toast } = useToast();
   
-  const pendingQuizzes = quizzes.filter(quiz => quiz.status === "pending");
+  const pendingQuizzes = Array.isArray(quizzes) ? quizzes.filter(quiz => quiz.status === "pending") : [];
 
   const removeQuiz = async (id: string) => {
     const response = await deleteQuiz(id);
